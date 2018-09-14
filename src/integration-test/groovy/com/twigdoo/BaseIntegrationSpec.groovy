@@ -15,7 +15,7 @@ abstract class BaseIntegrationSpec extends Specification {
         ObjectMapperFactory.setFailOnUnknownProperties(true)
         twigdoo = Twigdoo.make(new Configuration()
                 .withEndpoint(System.getProperty("twigdooEndpoint") ?: System.getenv("twigdooEndpoint") ?: "https://api-dev.twigdoo.com")
-                .withApiKey(System.getProperty("twigdooApiKey") ?: System.getenv("twigdooApiKey")  ?: "pOHYiKxCfNJSP1DKSFHw4AeiOxsPCK96"))
+                .withApiKey(System.getProperty("twigdooApiKey") ?: System.getenv("twigdooApiKey")))
     }
 
     def validate(Lead lead, LeadResponse result, String status = 'active') {
