@@ -1,15 +1,13 @@
 package com.twigdoo;
 
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.LocalDateTime;
 
 import java.util.Map;
 
 public class LeadResponse extends Lead {
     private long id;
-    private LocalDateTime createdOn;
-    private LocalDateTime updatedOn;
+    private DateTime createdOn;
+    private DateTime updatedOn;
     private String stage;
     private Map<String, String> links;
 
@@ -18,7 +16,7 @@ public class LeadResponse extends Lead {
     }
 
     public DateTime getCreatedOn() {
-        return createdOn.toDateTime(DateTimeZone.UTC);
+        return createdOn;
     }
 
     public Map<String, String> getLinks() {
@@ -26,7 +24,7 @@ public class LeadResponse extends Lead {
     }
 
     public DateTime getUpdatedOn() {
-        return updatedOn.toDateTime(DateTimeZone.UTC);
+        return updatedOn;
     }
 
     public String getStage() {
