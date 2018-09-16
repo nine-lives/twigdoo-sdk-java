@@ -132,8 +132,7 @@ public class HttpClient {
 
     private <T extends HttpEntityEnclosingRequest> T setPayload(T request, Object payload) {
         try {
-            String json = objectMapper.writeValueAsString(payload)
-                    .replaceAll("(\\d{4}-\\d{2}-\\d{2})T(\\d{2}:\\d{2}:\\d{2})", "$1 $2");
+            String json = objectMapper.writeValueAsString(payload);
             StringEntity entity = new StringEntity(json);
             entity.setContentType("application/json");
             request.setEntity(entity);
@@ -171,8 +170,7 @@ public class HttpClient {
         if (response.getEntity() == null) {
             return null;
         }
-        String entity = EntityUtils.toString(response.getEntity());
-        return entity.replaceAll("(\\d{4}-\\d{2}-\\d{2}) (\\d{2}:\\d{2}:\\d{2})", "$1T$2");
+        return EntityUtils.toString(response.getEntity());
     }
 
 

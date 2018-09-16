@@ -1,8 +1,6 @@
 package com.twigdoo;
 
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.LocalDateTime;
 
 import java.util.Map;
 
@@ -15,9 +13,9 @@ public class Lead {
 
     private String status;
     private String lostReason;
-    private LocalDateTime lostOn;
-    private LocalDateTime deletedOn;
-    private LocalDateTime qualifiedOn;
+    private DateTime lostOn;
+    private DateTime deletedOn;
+    private DateTime qualifiedOn;
     private Map<String, Object> data;
 
     public String getSourceId() {
@@ -75,29 +73,29 @@ public class Lead {
     }
 
     public DateTime getLostOn() {
-        return lostOn.toDateTime(DateTimeZone.UTC);
+        return lostOn;
     }
 
     public Lead withLostOn(DateTime lostOn) {
-        this.lostOn = lostOn.withZone(DateTimeZone.UTC).toLocalDateTime();
+        this.lostOn = lostOn;
         return this;
     }
 
     public DateTime getDeletedOn() {
-        return deletedOn.toDateTime(DateTimeZone.UTC);
+        return deletedOn;
     }
 
     public Lead withDeletedOn(DateTime deletedOn) {
-        this.deletedOn = deletedOn.withZone(DateTimeZone.UTC).toLocalDateTime();
+        this.deletedOn = deletedOn;
         return this;
     }
 
     public DateTime getQualifiedOn() {
-        return qualifiedOn.toDateTime(DateTimeZone.UTC);
+        return qualifiedOn;
     }
 
     public Lead withQualifiedOn(DateTime qualifiedOn) {
-        this.qualifiedOn = qualifiedOn.withZone(DateTimeZone.UTC).toLocalDateTime();
+        this.qualifiedOn = qualifiedOn;
         return this;
     }
 
