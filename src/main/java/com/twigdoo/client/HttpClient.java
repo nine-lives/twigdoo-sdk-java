@@ -210,8 +210,4 @@ public class HttpClient {
             throw new TwigdooException(e);
         }
     }
-
-    public static void main(String[] args) {
-
-    }
 }

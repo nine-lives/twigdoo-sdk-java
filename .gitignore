@@ -25,4 +25,4 @@ hs_err_pid*
 build
 .gradle
 /.idea/vcs.xml
-.gradle.properties
+gradle.properties
