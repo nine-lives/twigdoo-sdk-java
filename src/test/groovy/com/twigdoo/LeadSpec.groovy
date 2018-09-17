@@ -49,7 +49,6 @@ class LeadSpec extends Specification {
         given:
         DateTime now = DateTime.now();
         LocalDate today = LocalDate.now();
-        System.out.println(now);
         Lead lead = new Lead()
                 .withClient(new Client()
                     .withAddress("25 Blues Brother Drive")
@@ -73,17 +72,16 @@ class LeadSpec extends Specification {
 
         when:
         String json = mapper.writeValueAsString(lead)
-        System.out.println(json);
         Map<String, Object> values = mapper.readValue(json, new TypeReference<Map<String, Object>>() {})
 
         then:
         values['source_id'] == 'source-id'
         values['source'] == 'source-name'
         values['status'] == 'active'
-        LocalDateTime.parse(values['qualified_on']).toDateTime(DateTimeZone.UTC) == now
+        DateTime.parse(values['qualified_on']) == now
         values['lost_reason'] == 'lost-reason'
-        LocalDateTime.parse(values['lost_on']).toDateTime(DateTimeZone.UTC) == now
-        LocalDateTime.parse(values['deleted_on']).toDateTime(DateTimeZone.UTC) == now
+        DateTime.parse(values['lost_on']) == now
+        DateTime.parse(values['deleted_on']) == now
 
         values['client']['name'] == 'Jake Blues'
         values['client']['email'] == 'jake@test.com'
