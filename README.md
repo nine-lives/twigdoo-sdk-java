@@ -84,6 +84,18 @@ To update one or more fields on a lead:
         long twigdooId = result.getId();
 ```
 
+## Mark a Lead as qualified
+
+To mark a lead as qualified:
+```
+        Lead lead = new Lead()
+                .withService(new Service()
+                    .withStatus("qualified")
+                .withSourceId("12345")
+        
+        LeadResponse result = twigdoo.patch(lead);
+        long twigdooId = result.getId();
+```
 
 ## Custom Configuration
 

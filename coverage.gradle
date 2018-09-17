@@ -7,9 +7,9 @@ ext {
             'instruction': 50,
             'branch'     : 30,
             'line'       : 60,
-            'complexity' : 70,
-            'method'     : 80,
-            'class'      : 100
+            'complexity' : 60,
+            'method'     : 70,
+            'class'      : 90
     ]
 }
 
