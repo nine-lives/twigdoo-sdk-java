@@ -27,6 +27,11 @@ public class RateLimiter {
             }
             reset();
         }
+
+        if (requestsInBurst == 0) {
+            lastBurstStartTime = Clock.systemUTC().millis();
+        }
+
         requestsInBurst++;
     }
 

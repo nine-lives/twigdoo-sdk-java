@@ -1,41 +1,40 @@
 package com.twigdoo.util
 
-import com.twigdoo.Client
 import spock.lang.Specification
 
 class RequestParameterMapperSpec extends Specification {
 
     private final RequestParameterMapper mapper = new RequestParameterMapper()
 
+
     def "I can get a map of the request parameters"() {
         given:
-        Client request = new Client()
-                .withName("vname")
-                .withPhone("vphone")
+        TestRequest request = new TestRequest(obj: 'value', arr: ['one', 'two'])
+
         when:
         Map<String, String> parameters = mapper.writeToMap(request)
 
         then:
-        parameters['name'] == "vname"
-        parameters['phone'] == "vphone"
+        parameters['obj'] == "value"
+        parameters['arr'] == "one,two"
         parameters.size() == 2
     }
 
     def "I can write to query parameters"() {
         given:
-        Client request = new Client()
-                .withName("vname")
-                .withPhone("vphone")
+        TestRequest request = new TestRequest(obj: 'value', arr: ['one', 'two'])
+
         when:
         String query = new RequestParameterMapper().write(request)
 
         then:
-        query == "?name=vname&phone=vphone"
+        query == "?obj=value&arr=one%2Ctwo"
     }
+
 
     def "Query parameters is empty string if no values are set"() {
         given:
-        Client request = new Client()
+        TestRequest request = new TestRequest()
 
         when:
         String query = mapper.write(request)
@@ -46,30 +45,31 @@ class RequestParameterMapperSpec extends Specification {
 
     def "I can convert a query string back to a request object"() {
         given:
-        String query = "https://api.twigloo.com/lead?name=vname&phone=vphone"
+        String query = "https://api.twigloo.com/lead?obj=value&arr[]=one,two"
 
         when:
-        Client request = mapper.read(new URL(query), Client);
+        TestRequest request = mapper.read(new URL(query), TestRequest);
         Map<String, String> parameters = new RequestParameterMapper().writeToMap(request)
 
         then:
-        parameters['name'] == "vname"
-        parameters['phone'] == "vphone"
+        parameters['obj'] == "value"
+        parameters['arr'] == 'one,two'
         parameters.size() == 2
     }
 
     def "I can modify a mapped request object"() {
         given:
-        String query = "https://api.twigloo.com/lead?name=vname&phone=vphone"
+        String query = "https://api.twigloo.com/lead?obj=value&arr[]=one%2Ctwo"
 
         when:
-        Client request = mapper.read(new URL(query), Client);
-        request.withName("xname")
+        TestRequest request = mapper.read(new URL(query), TestRequest);
+        request.obj = "new"
+        request.arr = ["three", "four"]
         Map<String, String> parameters = new RequestParameterMapper().writeToMap(request)
 
         then:
-        parameters['name'] == "xname"
-        parameters['phone'] == "vphone"
+        parameters['obj'] == "new"
+        parameters['arr'] == "three,four"
         parameters.size() == 2
     }
 }

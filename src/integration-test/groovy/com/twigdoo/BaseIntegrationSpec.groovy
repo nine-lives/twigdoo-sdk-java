@@ -24,8 +24,8 @@ abstract class BaseIntegrationSpec extends Specification {
         assert Math.abs(Minutes.minutesBetween(result.updatedOn, DateTime.now()).minutes) < 5
         assert result.stage == ""
         assert result.links.size() == 2
-        assert result.links["self"] ==~ /https:\/\/api-dev.twigdoo.com\/lead\/\d+/ || result.links["self"] ==~ /https:\/\/api.twigdoo.com\/lead\/\d+/
-        assert result.links["calls"] ==~ /https:\/\/api-dev.twigdoo.com\/lead\/\d+\/calls/ || result.links["calls"] ==~ /https:\/\/api.twigdoo.com\/lead\/\d+\/calls/
+        assert result.links["self"] ==~ /https:\/\/.*\/lead\/\d+/
+        assert result.links["calls"] ==~ /https:\/\/.*\/lead\/\d+\/calls/
 
         assert result.sourceId == lead.getSourceId()
         assert result.source == lead.source

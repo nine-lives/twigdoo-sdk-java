@@ -47,4 +47,31 @@ class ConfigurationSpec extends Specification {
         config.requestsPerSecond == 10
         config.blockTillRateLimitReset
     }
+
+    def "I can set and unset the user agent"() {
+        when:
+        Configuration config = new Configuration()
+
+        then:
+        config.userAgent == "twigdoo-java-sdk/${version}".toString()
+
+        when:
+        config.withUserAgent("ninelives/9.0.0")
+
+        then:
+        config.userAgent == "ninelives/9.0.0 twigdoo-java-sdk/${version}".toString()
+
+        when:
+        config.withUserAgent(null)
+
+        then:
+        config.userAgent == "twigdoo-java-sdk/${version}".toString()
+
+        when:
+        config.withUserAgent(" ")
+
+        then:
+        config.userAgent == "twigdoo-java-sdk/${version}".toString()
+    }
+
 }

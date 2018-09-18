@@ -4,14 +4,16 @@ apply plugin: 'jacoco'
 
 ext {
     limits = [
-            'instruction': 50,
-            'branch'     : 30,
-            'line'       : 60,
-            'complexity' : 60,
-            'method'     : 70,
-            'class'      : 90
+            'instruction': 90,
+            'branch'     : 89,
+            'line'       : 90,
+            'complexity' : 95,
+            'method'     : 100,
+            'class'      : 100
     ]
 }
+
+test.finalizedBy jacocoTestReport
 
 jacocoTestReport {
     reports {
