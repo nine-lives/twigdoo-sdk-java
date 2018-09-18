@@ -24,7 +24,7 @@ class ConfigurationSpec extends Specification {
         config.requestBurstSize == 20
         config.requestsPerSecond == 5
         !config.blockTillRateLimitReset
-        version ==~ /1\.\d+/
+        version ==~ /1\.\d+\.\d+/
     }
 
     def "I can set configuration values"() {
