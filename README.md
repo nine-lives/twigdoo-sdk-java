@@ -20,7 +20,7 @@ in your projects as follows:
 
 ### Gradle/Grails
 ```
-    compile 'com.9ls:twigdoo-java-sdk:1.0'
+    compile 'com.9ls:twigdoo-java-sdk:1.0.1'
 ```
 
 ### Apache Maven
@@ -28,13 +28,13 @@ in your projects as follows:
     <dependency>
         <groupId>com.9ls</groupId>
         <artifactId>twigdoo-java-sdk</artifactId>
-        <version>1.0</version>
+        <version>1.0.1</version>
     </dependency>
 ```
 
 ### Apache Ivy
 ```
-    <dependency org="com.9ls" name="twigdoo-java-sdk" rev="1.0" />
+    <dependency org="com.9ls" name="twigdoo-java-sdk" rev="1.0.1" />
 ```
 
 ## Create a Lead
@@ -107,7 +107,7 @@ from the the api key all the other values have defaults.
         .withApiKey(apiKey)
         .withEndpoint("https://api.twigdoo.com")
         .withMaxConnectionsPerRoute(20)
-        .withUserAgent("twigdoo-sdk-java 1.0")
+        .withUserAgent("twigdoo-sdk-java 1.0.1")
         .withBlockTillRateLimitReset(false)
         .withRequestsPerSecond(5)
         .withRequestBurstSize(20);
