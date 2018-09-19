@@ -95,7 +95,7 @@ class LeadUpdateSpec extends BaseIntegrationSpec {
         validate(lead, result)
 
         when:
-        lead.withSourceId("")
+        lead.withSource("")
         result = twigdoo.update(createResponse.getId(), lead)
 
         then:
