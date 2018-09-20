@@ -122,14 +122,90 @@ class LeadUpdateSpec extends BaseIntegrationSpec {
         validate(lead, result)
     }
 
+    def "I can update and clear the client address successfully"() {
+        given:
+        Lead lead = buildLead()
+        LeadResponse createResponse = twigdoo.create(lead);
+        lead.getClient().withAddress("")
+
+        when:
+        LeadResponse result = twigdoo.update(createResponse.getId(), lead)
+
+        then:
+        validate(lead, result)
+
+        when:
+        lead.getClient().withAddress(null)
+        result = twigdoo.update(createResponse.getId(), lead)
+
+        then:
+        validate(lead, result)
+    }
+
+    def "I can update and clear the budget successfully"() {
+        given:
+        Lead lead = buildLead()
+        LeadResponse createResponse = twigdoo.create(lead);
+        lead.getService().withBudget(null)
+
+        when:
+        LeadResponse result = twigdoo.update(createResponse.getId(), lead)
+
+        then:
+        validate(lead, result)
+    }
+
+    def "I can update and clear the currency successfully"() {
+        given:
+        Lead lead = buildLead()
+        LeadResponse createResponse = twigdoo.create(lead);
+        lead.getService().withCurrency(null)
+
+        when:
+        LeadResponse result = twigdoo.update(createResponse.getId(), lead)
+
+        then:
+        validate(lead, result)
+    }
+
+    def "I can update and clear the data successfully"() {
+        given:
+        Lead lead = buildLead()
+        LeadResponse createResponse = twigdoo.create(lead);
+        lead.withData([:])
+
+        when:
+        LeadResponse result = twigdoo.update(createResponse.getId(), lead)
+
+        then:
+        validate(lead, result)
+
+        when:
+        lead.withData(null)
+        result = twigdoo.update(createResponse.getId(), lead)
+
+        then:
+        validate(lead, result)
+    }
+
     def "I can update a lead with minimal data"() {
         given:
         LeadResponse createResponse = twigdoo.create(buildLead());
         Lead updatedLead = new Lead()
                 .withClient(new Client().withName("the client").withEmail("client@test.com"))
                 .withService(new Service().withName("the-service").withAddress("SE1 0LH"))
+
+        // Fields that don't currently get cleared
+        updatedLead
                 .withSourceId(createResponse.getSourceId())
                 .withSource(createResponse.getSource())
+                .withData(createResponse.getData())
+        updatedLead.getClient()
+                .withPhone(createResponse.getClient().getPhone())
+                .withAddress(createResponse.getClient().getAddress())
+        updatedLead.getService()
+                .withBudget(createResponse.getService().getBudget())
+                .withCurrency(createResponse.getService().getCurrency())
 
         when:
         LeadResponse result = twigdoo.update(createResponse.getId(), updatedLead)

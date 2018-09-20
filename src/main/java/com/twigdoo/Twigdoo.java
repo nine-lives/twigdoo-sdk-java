@@ -48,6 +48,10 @@ public final class Twigdoo {
         return client.get("lead/" + id + "/calls", null, new TypeReference<List<Call>>() { });
     }
 
+    public List<Sms> smses(long id) {
+        return client.get("lead/" + id + "/smses", null, new TypeReference<List<Sms>>() { });
+    }
+
     public void delete(long id) {
         client.delete("lead/" + id, null, null);
     }
