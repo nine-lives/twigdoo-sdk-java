@@ -125,6 +125,7 @@ that occur during either parsing the payload or in a listener will fire the erro
 ### An HttpServlet example
 ```
     public class TwigdooWebhookServlet extends HttpServlet {
+        private static final TWIGDOO_VERIFY_KEY = "VERIFICATION_KEY";
         private WebhookCallProcessor processor = new WebhookCallProcessor()
         private WebhookListener listener = ...
 
@@ -133,8 +134,12 @@ that occur during either parsing the payload or in a listener will fire the erro
         }
     
         protected void doPost(HttpServletRequest request, HttpServletResponse response) {
-            String payload = IOUtils.toString(request.getReader());
-            processor.process(payload);
+            if (!TWIGDOO_VERIFY_KEY.equals(request.getHeader("x-twigdoo-verify"))) {
+               response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+            } else {
+                String payload = IOUtils.toString(request.getReader());
+                processor.process(payload);
+            }
         }
     }
 ``` 
@@ -144,8 +149,9 @@ that occur during either parsing the payload or in a listener will fire the erro
     @RequestMapping(value = "twigdoo/*")
     @Controller
     public class TwigdooWebhookServlet extends HttpServlet {
-        private WebhookCallProcessor processor = new WebhookCallProcessor()
-        private WebhookListener listener = ...
+        private static final TWIGDOO_VERIFY_KEY = "VERIFICATION_KEY";
+        private WebhookCallProcessor processor = new WebhookCallProcessor();
+        private WebhookListener listener = ...;
 
         @PostConstruct
         public void init() {
@@ -154,8 +160,12 @@ that occur during either parsing the payload or in a listener will fire the erro
     
         @ResponseBody
         @RequestMapping(value = "/webhook", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = "text/plain")
-        public String twigdoo(HttpEntity<String> httpEntity)  {
-            processor.process(httpEntity.getBody());
+        public String twigdoo(HttpEntity<String> httpEntity, HttpServletResponse)  {
+            if (!TWIGDOO_VERIFY_KEY.equals(httpEntity.getHeaders().get("x-twigdoo-verify"))) {
+               response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+            } else {
+                processor.process(httpEntity.getBody());
+            }
             return "";
         }
     }
