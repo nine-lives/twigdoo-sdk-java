@@ -20,7 +20,7 @@ in your projects as follows:
 
 ### Gradle/Grails
 ```
-    compile 'com.9ls:twigdoo-java-sdk:1.0.1'
+    compile 'com.9ls:twigdoo-java-sdk:1.0.2'
 ```
 
 ### Apache Maven
@@ -28,13 +28,13 @@ in your projects as follows:
     <dependency>
         <groupId>com.9ls</groupId>
         <artifactId>twigdoo-java-sdk</artifactId>
-        <version>1.0.1</version>
+        <version>1.0.2</version>
     </dependency>
 ```
 
 ### Apache Ivy
 ```
-    <dependency org="com.9ls" name="twigdoo-java-sdk" rev="1.0.1" />
+    <dependency org="com.9ls" name="twigdoo-java-sdk" rev="1.0.2" />
 ```
 
 ## Create a Lead
@@ -42,7 +42,7 @@ in your projects as follows:
 To create a lead:
 
 ```
-        Lead lead = new Lead()
+        LeadRequest lead = new LeadRequest()
                 .withClient(new Client()
                     .withEmail("jake@test.com")
                     .withName("Jake Blues")
@@ -51,14 +51,14 @@ To create a lead:
                     .withAddress("Chicago")
                 .withSourceId("12345")
         
-        LeadResponse result = twigdoo.create(lead);
+        Lead result = twigdoo.create(lead);
 ```
 
 ## Update a Lead
 
 To do a full update on a lead:
 ```
-        Lead lead = new Lead()
+        LeadRequest lead = new LeadRequest()
                 .withClient(new Client()
                     .withEmail("elwood@test.com")
                     .withName("Elwood Blues")
@@ -67,7 +67,7 @@ To do a full update on a lead:
                     .withAddress("Chicago")
                 .withSourceId("12345")
         
-        LeadResponse result = twigdoo.update(lead);
+        Lead result = twigdoo.update(lead);
         long twigdooId = result.getId();
 ```
 
@@ -75,27 +75,91 @@ To do a full update on a lead:
 
 To update one or more fields on a lead:
 ```
-        Lead lead = new Lead()
+        LeadRequest lead = new LeadRequest()
                 .withService(new Service()
                     .withName("Ray's Music Exchange")
                 .withSourceId("12345")
         
-        LeadResponse result = twigdoo.patch(lead);
+        Lead result = twigdoo.patch(lead);
         long twigdooId = result.getId();
 ```
 
-## Mark a Lead as qualified
+## Mark a LeadRequest as qualified
 
 To mark a lead as qualified:
 ```
-        Lead lead = new Lead()
+        LeadRequest lead = new LeadRequest()
                 .withService(new Service()
                     .withStatus("qualified")
                 .withSourceId("12345")
         
-        LeadResponse result = twigdoo.patch(lead);
+        Lead result = twigdoo.patch(lead);
         long twigdooId = result.getId();
 ```
+
+## Webhooks
+
+To parse a webhook payload you can use the WebhookCallProcessor and register a WebhookListener. 
+The WebhookCallProcessor.process call forks calls to the listeners into a separate thread so it will return
+immediately. All registered threads are run in a single thread so they will be called serially. The default 
+number of threads for WebhookCallProcessor is 5.
+
+You may implement as many or as few of the methods on the WebhookListener interface as you require. Any errors
+that occur during either parsing the payload or in a listener will fire the error method on the listener.  
+
+### The WebhookListener
+
+```
+
+    WebhookListener listener = new WebhookListener() {
+            public void created(Webhook<Lead> hook, Lead lead) { }
+            public void updated(Webhook<Lead> hook, Lead lead) { }
+            public void created(Webhook<Call> hook, Call lead) { }
+            public void updated(Webhook<Call> hook, Call lead) { }
+            public void created(Webhook<Sms> hook, Sms lead) { }
+            public void updated(Webhook<Sms> hook, Sms lead) { }
+            public void error(Exception e, String payload) { }
+    });
+```
+
+### An HttpServlet example
+```
+    public class TwigdooWebhookServlet extends HttpServlet {
+        private WebhookCallProcessor processor = new WebhookCallProcessor()
+        private WebhookListener listener = ...
+
+        public void init() throws ServletException {
+            processor.addListener(listener);
+        }
+    
+        protected void doPost(HttpServletRequest request, HttpServletResponse response) {
+            String payload = IOUtils.toString(request.getReader());
+            processor.process(payload);
+        }
+    }
+``` 
+
+### A Spring Controller example
+```
+    @RequestMapping(value = "twigdoo/*")
+    @Controller
+    public class TwigdooWebhookServlet extends HttpServlet {
+        private WebhookCallProcessor processor = new WebhookCallProcessor()
+        private WebhookListener listener = ...
+
+        @PostConstruct
+        public void init() {
+            processor.addListener(listener);
+        }
+    
+        @ResponseBody
+        @RequestMapping(value = "/webhook", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = "text/plain")
+        public String twigdoo(HttpEntity<String> httpEntity)  {
+            processor.process(httpEntity.getBody());
+            return "";
+        }
+    }
+``` 
 
 ## Custom Configuration
 
@@ -107,7 +171,7 @@ from the the api key all the other values have defaults.
         .withApiKey(apiKey)
         .withEndpoint("https://api.twigdoo.com")
         .withMaxConnectionsPerRoute(20)
-        .withUserAgent("twigdoo-sdk-java 1.0.1")
+        .withUserAgent("twigdoo-sdk-java 1.0.2")
         .withBlockTillRateLimitReset(false)
         .withRequestsPerSecond(5)
         .withRequestBurstSize(20);

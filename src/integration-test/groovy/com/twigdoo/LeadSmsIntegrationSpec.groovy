@@ -4,7 +4,7 @@ class LeadSmsIntegrationSpec extends BaseIntegrationSpec {
 
     def "I can get smses for a lead by id"() {
         given:
-        LeadResponse createResponse = twigdoo.create(buildLead());
+        Lead createResponse = twigdoo.create(buildLead());
 
         when:
         List<Sms> result = twigdoo.smses(createResponse.getId())

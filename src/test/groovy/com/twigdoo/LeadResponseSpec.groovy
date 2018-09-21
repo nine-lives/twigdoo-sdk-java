@@ -1,11 +1,8 @@
 package com.twigdoo
 
-import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.twigdoo.util.ObjectMapperFactory
-import org.joda.time.DateTime
 import org.joda.time.DateTimeZone
-import org.joda.time.LocalDate
 import org.joda.time.LocalDateTime
 import spock.lang.Specification
 
@@ -47,7 +44,7 @@ class LeadResponseSpec extends Specification {
        '''
 
         when:
-        LeadResponse result = mapper.readValue(payload, LeadResponse);
+        Lead result = mapper.readValue(payload, Lead);
 
         then:
 

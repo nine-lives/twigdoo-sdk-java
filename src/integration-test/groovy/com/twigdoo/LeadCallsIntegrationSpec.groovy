@@ -4,7 +4,7 @@ class LeadCallsIntegrationSpec extends BaseIntegrationSpec {
 
     def "I can get calls for a lead by id"() {
         given:
-        LeadResponse createResponse = twigdoo.create(buildLead());
+        Lead createResponse = twigdoo.create(buildLead());
 
         when:
         List<Call> result = twigdoo.calls(createResponse.getId())

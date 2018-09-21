@@ -3,22 +3,22 @@ package com.twigdoo
 class LeadPatchSpec extends BaseIntegrationSpec {
 
     def "I can patch a lead by id"() {
-        LeadResponse createResponse = twigdoo.create(buildLead());
-        Lead updatedLead = buildAltLead().withSourceId(createResponse.getSourceId())
+        Lead createResponse = twigdoo.create(buildLead());
+        LeadRequest updatedLead = buildAltLead().withSourceId(createResponse.getSourceId())
 
         when:
-        LeadResponse result = twigdoo.patch(createResponse.getId(), updatedLead)
+        Lead result = twigdoo.patch(createResponse.getId(), updatedLead)
 
         then:
         validate(updatedLead, result)
     }
 
     def "I can patch a lead by source id"() {
-        LeadResponse createResponse = twigdoo.create(buildLead());
-        Lead updatedLead = buildAltLead().withSourceId(createResponse.getSourceId())
+        Lead createResponse = twigdoo.create(buildLead());
+        LeadRequest updatedLead = buildAltLead().withSourceId(createResponse.getSourceId())
 
         when:
-        LeadResponse result = twigdoo.patch(updatedLead)
+        Lead result = twigdoo.patch(updatedLead)
 
         then:
         validate(updatedLead, result)
@@ -26,11 +26,11 @@ class LeadPatchSpec extends BaseIntegrationSpec {
 
     def "I can patch a lead and change the source id"() {
         given:
-        LeadResponse createResponse = twigdoo.create(buildLead());
-        Lead updatedLead = buildAltLead()
+        Lead createResponse = twigdoo.create(buildLead());
+        LeadRequest updatedLead = buildAltLead()
 
         when:
-        LeadResponse result = twigdoo.patch(createResponse.getId(), updatedLead)
+        Lead result = twigdoo.patch(createResponse.getId(), updatedLead)
 
         then:
         validate(updatedLead, result)
@@ -38,11 +38,11 @@ class LeadPatchSpec extends BaseIntegrationSpec {
 
     def "I can patch a client fullname with just a forename successfully"() {
         given:
-        Lead lead = buildLead();
-        LeadResponse createResponse = twigdoo.create(lead);
+        LeadRequest lead = buildLead();
+        Lead createResponse = twigdoo.create(lead);
 
         when:
-        LeadResponse result = twigdoo.patch(createResponse.getId(), new Lead().withClient(new Client().withName("Elwood")))
+        Lead result = twigdoo.patch(createResponse.getId(), new LeadRequest().withClient(new Client().withName("Elwood")))
 
         then:
         result.client.name == 'Elwood'
@@ -51,10 +51,10 @@ class LeadPatchSpec extends BaseIntegrationSpec {
 
     def "I get a validation error for an invalid email"() {
         given:
-        LeadResponse createResponse = twigdoo.create(buildLead());
+        Lead createResponse = twigdoo.create(buildLead());
 
         when:
-        twigdoo.patch(createResponse.getId(), new Lead().withClient(new Client().withEmail("i-am-your-father")))
+        twigdoo.patch(createResponse.getId(), new LeadRequest().withClient(new Client().withEmail("i-am-your-father")))
 
         then:
         TwigdooServerException exception = thrown(TwigdooServerException)
@@ -66,12 +66,12 @@ class LeadPatchSpec extends BaseIntegrationSpec {
 
     def "I can update data successfully"() {
         given:
-        Lead lead = buildLead()
-        LeadResponse createResponse = twigdoo.create(lead);
+        LeadRequest lead = buildLead()
+        Lead createResponse = twigdoo.create(lead);
         lead.withData(['Item 1': 'Mic'])
 
         when:
-        LeadResponse result = twigdoo.update(createResponse.getId(), lead)
+        Lead result = twigdoo.update(createResponse.getId(), lead)
 
         then:
         validate(lead, result)

@@ -4,108 +4,30 @@ import org.joda.time.DateTime;
 
 import java.util.Map;
 
-public class Lead {
-    private String sourceId;
-    private String source;
-    private Client client;
+public class Lead extends LeadRequest implements TwigdooEntity {
+    private long id;
+    private DateTime createdOn;
+    private DateTime updatedOn;
+    private String stage;
+    private Map<String, String> links;
 
-    private Service service;
-
-    private String status;
-    private String lostReason;
-    private DateTime lostOn;
-    private DateTime deletedOn;
-    private DateTime qualifiedOn;
-    private Map<String, Object> data;
-
-    public String getSourceId() {
-        return sourceId;
+    public long getId() {
+        return id;
     }
 
-    public Lead withSourceId(String sourceId) {
-        this.sourceId = sourceId;
-        return this;
+    public DateTime getCreatedOn() {
+        return createdOn;
     }
 
-    public String getSource() {
-        return source;
+    public Map<String, String> getLinks() {
+        return links;
     }
 
-    public Lead withSource(String source) {
-        this.source = source;
-        return this;
+    public DateTime getUpdatedOn() {
+        return updatedOn;
     }
 
-    public Client getClient() {
-        return client;
+    public String getStage() {
+        return stage;
     }
-
-    public Lead withClient(Client client) {
-        this.client = client;
-        return this;
-    }
-
-    public Service getService() {
-        return service;
-    }
-
-    public Lead withService(Service service) {
-        this.service = service;
-        return this;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public Lead withStatus(String status) {
-        this.status = status;
-        return this;
-    }
-
-    public String getLostReason() {
-        return lostReason;
-    }
-
-    public Lead withLostReason(String lostReason) {
-        this.lostReason = lostReason;
-        return this;
-    }
-
-    public DateTime getLostOn() {
-        return lostOn;
-    }
-
-    public Lead withLostOn(DateTime lostOn) {
-        this.lostOn = lostOn;
-        return this;
-    }
-
-    public DateTime getDeletedOn() {
-        return deletedOn;
-    }
-
-    public Lead withDeletedOn(DateTime deletedOn) {
-        this.deletedOn = deletedOn;
-        return this;
-    }
-
-    public DateTime getQualifiedOn() {
-        return qualifiedOn;
-    }
-
-    public Lead withQualifiedOn(DateTime qualifiedOn) {
-        this.qualifiedOn = qualifiedOn;
-        return this;
-    }
-
-    public Map<String, Object> getData() {
-        return data;
-    }
-
-    public Lead withData(Map<String, Object> data) {
-        this.data = data;
-        return this;
-    }
-
 }
