@@ -32,8 +32,8 @@ abstract class BaseIntegrationSpec extends Specification {
 
         assert result.client.name == lead.client.name
         assert result.client.email == lead.client.email
-        assert result.client.phone == (lead.client.phone ?: '')
-        assert result.client.address == (lead.client.address ?: '')
+        assert (result.client.phone ?: '') == (lead.client.phone ?: '')
+        assert (result.client.address ?: '') == (lead.client.address ?: '')
 
         assert result.service.name == lead.service.name
         assert result.service.address == lead.service.address
