@@ -114,10 +114,10 @@ that occur during either parsing the payload or in a listener will fire the erro
     WebhookListener listener = new WebhookListener() {
             public void created(Webhook<Lead> hook, Lead lead) { }
             public void updated(Webhook<Lead> hook, Lead lead) { }
-            public void created(Webhook<Call> hook, Call lead) { }
-            public void updated(Webhook<Call> hook, Call lead) { }
-            public void created(Webhook<Sms> hook, Sms lead) { }
-            public void updated(Webhook<Sms> hook, Sms lead) { }
+            public void created(Webhook<Call> hook, Call call) { }
+            public void updated(Webhook<Call> hook, Call call) { }
+            public void created(Webhook<Sms> hook, Sms sms) { }
+            public void updated(Webhook<Sms> hook, Sms sms) { }
             public void error(Exception e, String payload) { }
     });
 ```
