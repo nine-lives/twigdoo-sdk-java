@@ -2,12 +2,10 @@ package com.twigdoo
 
 import com.twigdoo.util.ObjectMapperFactory
 import org.joda.time.DateTime
-import org.joda.time.LocalDate
 import org.joda.time.Minutes
 import spock.lang.Specification
 
 abstract class BaseIntegrationSpec extends Specification {
-    private static final LocalDate TODAY = LocalDate.now();
 
     protected static Twigdoo twigdoo
 
@@ -18,17 +16,18 @@ abstract class BaseIntegrationSpec extends Specification {
                 .withApiKey(System.getProperty("twigdooApiKey") ?: System.getenv("twigdooApiKey")))
     }
 
-    def validate(Lead lead, LeadResponse result, String status = 'active') {
+    def validate(LeadRequest lead, Lead result, String status = 'active') {
         assert result.id ==~ /\d+/
         assert Math.abs(Minutes.minutesBetween(result.createdOn, DateTime.now()).minutes) < 5
         assert Math.abs(Minutes.minutesBetween(result.updatedOn, DateTime.now()).minutes) < 5
         assert result.stage == ""
-        assert result.links.size() == 2
+        assert result.links.size() == 3
         assert result.links["self"] ==~ /http[s]?:\/\/.*\/lead\/\d+/
         assert result.links["calls"] ==~ /http[s]?:\/\/.*\/lead\/\d+\/calls/
+        assert result.links["smses"] ==~ /http[s]?:\/\/.*\/lead\/\d+\/smses/
 
         assert result.sourceId == lead.getSourceId()
-        assert result.source == lead.source
+        assert (result.source ?: "") == (lead.source ?: "")
         assert result.status == status
 
         assert result.client.name == lead.client.name
@@ -46,8 +45,8 @@ abstract class BaseIntegrationSpec extends Specification {
         true
     }
 
-    Lead buildLead() {
-        new Lead()
+    LeadRequest buildLead() {
+        new LeadRequest()
                 .withClient(new Client()
                 .withAddress("26 Blues Brother Drive")
                 .withEmail("jake@test.com")
@@ -64,8 +63,8 @@ abstract class BaseIntegrationSpec extends Specification {
                 .withSourceId(String.valueOf(System.currentTimeMillis()))
     }
 
-    Lead buildAltLead() {
-        new Lead()
+    LeadRequest buildAltLead() {
+        new LeadRequest()
                 .withClient(new Client()
                 .withAddress("62 Blues Brother Drive")
                 .withEmail("elwood@test.com")

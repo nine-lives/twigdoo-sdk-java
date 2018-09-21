@@ -1,21 +1,21 @@
 package com.twigdoo
 
-class LeadCallsIntegrationSpec extends BaseIntegrationSpec {
+class LeadSmsIntegrationSpec extends BaseIntegrationSpec {
 
-    def "I can get calls for a lead by id"() {
+    def "I can get smses for a lead by id"() {
         given:
         Lead createResponse = twigdoo.create(buildLead());
 
         when:
-        List<Call> result = twigdoo.calls(createResponse.getId())
+        List<Sms> result = twigdoo.smses(createResponse.getId())
 
         then:
         result.size() == 0
     }
 
-    def "I get a 404 when I fetch a calls for a lead with an invalid id"() {
+    def "I get a 404 when I fetch a smses for a lead with an invalid id"() {
         when:
-        twigdoo.calls(-1)
+        twigdoo.smses(-1)
 
         then:
         TwigdooServerException exception = thrown(TwigdooServerException)

@@ -4,9 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.twigdoo.util.ObjectMapperFactory
 import org.joda.time.DateTime
-import org.joda.time.DateTimeZone
 import org.joda.time.LocalDate
-import org.joda.time.LocalDateTime
 import spock.lang.Specification
 
 class LeadSpec extends Specification {
@@ -32,7 +30,7 @@ class LeadSpec extends Specification {
        '''
 
         when:
-        Lead entity = mapper.readValue(payload, Lead);
+        LeadRequest entity = mapper.readValue(payload, LeadRequest);
 
         then:
         with(entity) {
@@ -49,7 +47,7 @@ class LeadSpec extends Specification {
         given:
         DateTime now = DateTime.now();
         LocalDate today = LocalDate.now();
-        Lead lead = new Lead()
+        LeadRequest lead = new LeadRequest()
                 .withClient(new Client()
                     .withAddress("25 Blues Brother Drive")
                     .withEmail("jake@test.com")
@@ -97,7 +95,7 @@ class LeadSpec extends Specification {
         values['data']['item'] == 'item value'
 
         when:
-        Lead result = mapper.readValue(json, Lead.class)
+        LeadRequest result = mapper.readValue(json, LeadRequest.class)
 
         then:
         result.sourceId == 'source-id'

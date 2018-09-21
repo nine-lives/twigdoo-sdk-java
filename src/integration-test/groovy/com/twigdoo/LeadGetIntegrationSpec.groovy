@@ -6,11 +6,11 @@ class LeadGetIntegrationSpec extends BaseIntegrationSpec {
 
     def "I can get a lead by id"() {
         given:
-        Lead lead = buildLead()
-        LeadResponse createResponse = twigdoo.create(lead);
+        LeadRequest lead = buildLead()
+        Lead createResponse = twigdoo.create(lead);
 
         when:
-        LeadResponse result = twigdoo.get(createResponse.getId())
+        Lead result = twigdoo.get(createResponse.getId())
 
         then:
         validate(lead, result)
@@ -18,11 +18,11 @@ class LeadGetIntegrationSpec extends BaseIntegrationSpec {
 
     def "I can get a lead by source id"() {
         given:
-        Lead lead = buildLead()
-        LeadResponse createResponse = twigdoo.create(lead);
+        LeadRequest lead = buildLead()
+        Lead createResponse = twigdoo.create(lead);
 
         when:
-        LeadResponse result = twigdoo.get(lead.getSourceId())
+        Lead result = twigdoo.get(lead.getSourceId())
 
         then:
         validate(lead, result)
@@ -31,12 +31,12 @@ class LeadGetIntegrationSpec extends BaseIntegrationSpec {
 
     def "Service date is returned when set"() {
         given:
-        Lead lead = buildLead()
+        LeadRequest lead = buildLead()
         lead.getService().withDate(LocalDate.now())
-        LeadResponse createResponse = twigdoo.create(lead);
+        Lead createResponse = twigdoo.create(lead);
 
         when:
-        LeadResponse result = twigdoo.get(createResponse.getId())
+        Lead result = twigdoo.get(createResponse.getId())
 
         then:
         validate(lead, result)

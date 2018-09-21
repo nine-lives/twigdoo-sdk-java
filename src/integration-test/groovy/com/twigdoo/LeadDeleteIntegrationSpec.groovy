@@ -7,12 +7,12 @@ class LeadDeleteIntegrationSpec extends BaseIntegrationSpec {
 
     def "I can delete a lead by id"() {
         given:
-        Lead lead = buildLead()
-        LeadResponse createResponse = twigdoo.create(lead);
+        LeadRequest lead = buildLead()
+        Lead createResponse = twigdoo.create(lead);
 
         when:
         twigdoo.delete(createResponse.getId())
-        Lead result = twigdoo.get(createResponse.getId())
+        LeadRequest result = twigdoo.get(createResponse.getId())
 
         then:
         result.status == 'deleted'
@@ -21,12 +21,12 @@ class LeadDeleteIntegrationSpec extends BaseIntegrationSpec {
 
     def "I can delete a lead by source id"() {
         given:
-        Lead lead = buildLead()
-        LeadResponse createResponse = twigdoo.create(lead);
+        LeadRequest lead = buildLead()
+        Lead createResponse = twigdoo.create(lead);
 
         when:
         twigdoo.delete(createResponse.getSourceId())
-        Lead result = twigdoo.get(createResponse.getId())
+        LeadRequest result = twigdoo.get(createResponse.getId())
 
         then:
         result.status == 'deleted'

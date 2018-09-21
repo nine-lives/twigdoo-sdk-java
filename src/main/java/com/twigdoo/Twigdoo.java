@@ -36,43 +36,47 @@ public final class Twigdoo {
         return new Twigdoo(configuration);
     }
 
-    public LeadResponse get(long id) {
-        return client.get("lead/" + id, null, LeadResponse.class);
+    public Lead get(long id) {
+        return client.get("lead/" + id, null, Lead.class);
     }
 
-    public LeadResponse get(String sourceId) {
-        return client.get("lead/source-id/" + sourceId, null, LeadResponse.class);
+    public Lead get(String sourceId) {
+        return client.get("lead/source-id/" + sourceId, null, Lead.class);
     }
 
     public List<Call> calls(long id) {
         return client.get("lead/" + id + "/calls", null, new TypeReference<List<Call>>() { });
     }
 
+    public List<Sms> smses(long id) {
+        return client.get("lead/" + id + "/smses", null, new TypeReference<List<Sms>>() { });
+    }
+
     public void delete(long id) {
         client.delete("lead/" + id, null, null);
     }
 
-    public LeadResponse delete(String sourceId) {
-        return client.delete("lead/source-id/" + sourceId, null, LeadResponse.class);
+    public Lead delete(String sourceId) {
+        return client.delete("lead/source-id/" + sourceId, null, Lead.class);
     }
 
-    public LeadResponse create(Lead lead) {
-        return client.post("lead", lead, LeadResponse.class);
+    public Lead create(LeadRequest lead) {
+        return client.post("lead", lead, Lead.class);
     }
 
-    public LeadResponse update(long id, Lead lead) {
-        return client.put("lead/" + id, lead, LeadResponse.class);
+    public Lead update(long id, LeadRequest lead) {
+        return client.put("lead/" + id, lead, Lead.class);
     }
 
-    public LeadResponse update(Lead lead) {
-        return client.put("lead/source-id/" + lead.getSourceId(), lead, LeadResponse.class);
+    public Lead update(LeadRequest lead) {
+        return client.put("lead/source-id/" + lead.getSourceId(), lead, Lead.class);
     }
 
-    public LeadResponse patch(long id, Lead lead) {
-        return client.patch("lead/" + id, lead, LeadResponse.class);
+    public Lead patch(long id, LeadRequest lead) {
+        return client.patch("lead/" + id, lead, Lead.class);
     }
 
-    public LeadResponse patch(Lead lead) {
-        return client.patch("lead/source-id/" + lead.getSourceId(), lead, LeadResponse.class);
+    public Lead patch(LeadRequest lead) {
+        return client.patch("lead/source-id/" + lead.getSourceId(), lead, Lead.class);
     }
 }
