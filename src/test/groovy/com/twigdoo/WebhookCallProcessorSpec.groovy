@@ -10,6 +10,7 @@ class WebhookCallProcessorSpec extends Specification {
     def "I can process a lead created"() {
         given:
             WebhookCallProcessor processor = new WebhookCallProcessor(1)
+            processor.addListener(new WebhookListener() {})
             String payload = '''
                     {
                         "id": 858, 
@@ -44,6 +45,7 @@ class WebhookCallProcessorSpec extends Specification {
     def "I can process a lead updated"() {
         given:
         WebhookCallProcessor processor = new WebhookCallProcessor(1)
+        processor.addListener(new WebhookListener() {})
         String payload = '''
                     {
                         "id": 858, 
@@ -79,6 +81,7 @@ class WebhookCallProcessorSpec extends Specification {
     def "I can process a call created"() {
         given:
         WebhookCallProcessor processor = new WebhookCallProcessor(1)
+        processor.addListener(new WebhookListener() {})
         String payload = '''
                     {
                         "id": 858, 
@@ -113,6 +116,7 @@ class WebhookCallProcessorSpec extends Specification {
     def "I can process a call updated"() {
         given:
         WebhookCallProcessor processor = new WebhookCallProcessor(1)
+        processor.addListener(new WebhookListener() {})
         String payload = '''
                     {
                         "id": 858, 
@@ -149,6 +153,7 @@ class WebhookCallProcessorSpec extends Specification {
     def "I can process an sms created"() {
         given:
         WebhookCallProcessor processor = new WebhookCallProcessor(1)
+        processor.addListener(new WebhookListener() {})
         String payload = '''
                     {
                         "id": 858, 
@@ -183,6 +188,7 @@ class WebhookCallProcessorSpec extends Specification {
     def "I can process a sms updated"() {
         given:
         WebhookCallProcessor processor = new WebhookCallProcessor(1)
+        processor.addListener(new WebhookListener() {})
         String payload = '''
                     {
                         "id": 858, 
@@ -218,6 +224,7 @@ class WebhookCallProcessorSpec extends Specification {
     def "I can handle parsing errors"() {
         given:
         WebhookCallProcessor processor = new WebhookCallProcessor(1)
+        processor.addListener(new WebhookListener() {})
         String payload = '{invalid"json}'
 
 
@@ -244,6 +251,7 @@ class WebhookCallProcessorSpec extends Specification {
     def "I can handle listener errors"() {
         given:
         WebhookCallProcessor processor = new WebhookCallProcessor(1)
+        processor.addListener(new WebhookListener() {})
         String payload = '''
                     {
                         "id": 858, 
@@ -285,6 +293,7 @@ class WebhookCallProcessorSpec extends Specification {
     def "I can handle error listener errors"() {
         given:
         WebhookCallProcessor processor = new WebhookCallProcessor(1)
+        processor.addListener(new WebhookListener() {})
         String payload = '''
                     {
                         "id": 858, 
@@ -316,6 +325,7 @@ class WebhookCallProcessorSpec extends Specification {
     def "The default number of threads is 5"() {
         given:
         WebhookCallProcessor processor = new WebhookCallProcessor()
+        processor.addListener(new WebhookListener() {})
         String payload = '''
                     {
                         "id": 858, 
@@ -368,6 +378,7 @@ class WebhookCallProcessorSpec extends Specification {
     def "I can add and remove multiple listeners"() {
         given:
         WebhookCallProcessor processor = new WebhookCallProcessor()
+        processor.addListener(new WebhookListener() {})
         String payload = '''
                     {
                         "id": 858, 
