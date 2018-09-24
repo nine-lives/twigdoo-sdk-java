@@ -1,5 +1,6 @@
 package com.twigdoo;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import org.joda.time.DateTime;
 
 import java.util.HashMap;
@@ -12,6 +13,7 @@ public class Sms implements TwigdooEntity {
     private DateTime smsTime;
     private String contactNumber;
     private String content;
+    @JsonAlias("_links")
     private Map<String, String> links = new HashMap<>();
 
     public long getId() {

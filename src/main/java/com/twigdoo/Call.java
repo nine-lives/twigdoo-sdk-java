@@ -1,5 +1,6 @@
 package com.twigdoo;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import org.joda.time.DateTime;
 
 import java.util.HashMap;
@@ -13,6 +14,8 @@ public class Call implements TwigdooEntity {
     private DateTime callTime;
     private int duration;
     private String notes;
+
+    @JsonAlias("_links")
     private Map<String, String> links = new HashMap<>();
 
     public long getId() {

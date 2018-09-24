@@ -17,7 +17,7 @@ class CallSpec extends Specification {
                    "id" : 1,
                    "lead_id" : 301,
                    "duration" : 123,
-                   "links" : {
+                   "_links" : {
                       "self" : "http://localhost:5000/lead/301/calls/1",
                       "lead" : "http://localhost:5000/lead/301"
                    },

@@ -1,5 +1,6 @@
 package com.twigdoo;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import org.joda.time.DateTime;
 
 import java.util.Map;
@@ -9,6 +10,7 @@ public class Lead extends LeadRequest implements TwigdooEntity {
     private DateTime createdOn;
     private DateTime updatedOn;
     private String stage;
+    @JsonAlias("_links")
     private Map<String, String> links;
 
     public long getId() {
