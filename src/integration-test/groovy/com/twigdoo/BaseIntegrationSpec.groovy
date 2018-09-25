@@ -12,6 +12,7 @@ abstract class BaseIntegrationSpec extends Specification {
     def setupSpec() {
         ObjectMapperFactory.setFailOnUnknownProperties(true)
         twigdoo = Twigdoo.make(new Configuration()
+                .withBlockTillRateLimitReset(true)
                 .withRequestsPerSecond(1000)
                 .withEndpoint(System.getProperty("twigdooEndpoint") ?: System.getenv("twigdooEndpoint") ?: "https://api-dev.twigdoo.com")
                 .withApiKey(System.getProperty("twigdooApiKey") ?: System.getenv("twigdooApiKey")))
