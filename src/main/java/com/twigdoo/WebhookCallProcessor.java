@@ -48,6 +48,7 @@ public class WebhookCallProcessor {
                         fire(callhook, callhook.getData());
                         break;
                     case sms:
+                    default:
                         Webhook<Sms> smshook = Webhook.getSms(mapper, payload);
                         fire(smshook, smshook.getData());
                         break;
@@ -74,6 +75,7 @@ public class WebhookCallProcessor {
                     listener.created(hook, data);
                     break;
                 case updated:
+                default:
                     listener.updated(hook, data);
                     break;
             }
@@ -87,6 +89,7 @@ public class WebhookCallProcessor {
                     listener.created(hook, data);
                     break;
                 case updated:
+                default:
                     listener.updated(hook, data);
                     break;
             }
@@ -100,6 +103,7 @@ public class WebhookCallProcessor {
                     listener.created(hook, data);
                     break;
                 case updated:
+                default:
                     listener.updated(hook, data);
                     break;
             }

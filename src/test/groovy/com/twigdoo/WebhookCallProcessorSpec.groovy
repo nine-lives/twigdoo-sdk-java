@@ -309,9 +309,18 @@ class WebhookCallProcessorSpec extends Specification {
            '''
 
         when:
+        Sms result
+        Exception exceptionResult
         processor.addListener(new WebhookListener() {
             @Override
+            void updated(Webhook<Sms> hook, Sms sms) {
+                result = sms
+                throw new IllegalStateException()
+            }
+
+            @Override
             void error(Exception e, String received) {
+                exceptionResult = e
                 throw new IllegalStateException()
             }
         })
@@ -320,6 +329,8 @@ class WebhookCallProcessorSpec extends Specification {
 
         then:
         o == null
+        result != null
+        exceptionResult != null
     }
 
     def "The default number of threads is 5"() {

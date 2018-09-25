@@ -12,6 +12,7 @@ abstract class BaseIntegrationSpec extends Specification {
     def setupSpec() {
         ObjectMapperFactory.setFailOnUnknownProperties(true)
         twigdoo = Twigdoo.make(new Configuration()
+                .withRequestsPerSecond(1000)
                 .withEndpoint(System.getProperty("twigdooEndpoint") ?: System.getenv("twigdooEndpoint") ?: "https://api-dev.twigdoo.com")
                 .withApiKey(System.getProperty("twigdooApiKey") ?: System.getenv("twigdooApiKey")))
     }
@@ -20,7 +21,7 @@ abstract class BaseIntegrationSpec extends Specification {
         assert result.id ==~ /\d+/
         assert Math.abs(Minutes.minutesBetween(result.createdOn, DateTime.now()).minutes) < 5
         assert Math.abs(Minutes.minutesBetween(result.updatedOn, DateTime.now()).minutes) < 5
-        assert result.stage == ""
+        assert result.stage == "" || result.stage == "New Deal"
         assert result.links.size() == 3
         assert result.links["self"] ==~ /http[s]?:\/\/.*\/lead\/\d+/
         assert result.links["calls"] ==~ /http[s]?:\/\/.*\/lead\/\d+\/calls/

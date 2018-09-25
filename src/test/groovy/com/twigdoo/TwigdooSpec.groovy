@@ -31,4 +31,27 @@ class TwigdooSpec extends Specification {
         config == api.client.configuration;
         config.endpoint == "https://bpi.twigdoo.com"
     }
+
+    def "I can get 100% methods coverage"() {
+        given:
+        Configuration config = new Configuration()
+                .withApiKey("secret")
+                .withEndpoint("https://bpi.twigdoo.com")
+        Twigdoo api = Twigdoo.make(config)
+
+        when:
+        TwigdooServerException e = api.client.throwError('{"error": "message"}', new IOException("io"))
+
+        then:
+        e.error.error == 'message'
+        e.statusCode == 200
+        e.statusMessage == 'OK'
+
+        when:
+        TwigdooException e2 = api.client.throwError('error', new IOException("io"))
+
+        then:
+        e2.message == "java.io.IOException: io"
+    }
+
 }

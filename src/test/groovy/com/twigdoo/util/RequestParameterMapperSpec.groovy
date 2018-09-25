@@ -57,6 +57,18 @@ class RequestParameterMapperSpec extends Specification {
         parameters.size() == 2
     }
 
+    def "I get an error when I try to load it into an invalid object"() {
+        given:
+        String query = "https://api.twigloo.com/lead?obj=value&arr[]=one,two"
+
+        when:
+        mapper.read(new URL(query), String);
+
+        then:
+        IllegalStateException e = thrown(IllegalStateException)
+    }
+
+
     def "I can modify a mapped request object"() {
         given:
         String query = "https://api.twigloo.com/lead?obj=value&arr[]=one%2Ctwo"
