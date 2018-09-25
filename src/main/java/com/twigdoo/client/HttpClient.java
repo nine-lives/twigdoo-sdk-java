@@ -82,15 +82,7 @@ public class HttpClient {
             content = execute(request);
             return content == null ? null : objectMapper.readValue(content, responseType);
         } catch (IOException e) {
-            try {
-                throw new TwigdooServerException(
-                        HttpStatus.SC_OK,
-                        "OK",
-                        objectMapper.readValue(content, TwigdooError.class));
-            } catch (IOException ignore) {
-            }
-
-            throw new TwigdooException(e);
+            throw throwError(content, e);
         }
     }
 
@@ -100,15 +92,7 @@ public class HttpClient {
             content = execute(request);
             return objectMapper.readValue(content, responseType);
         } catch (IOException e) {
-            try {
-                throw new TwigdooServerException(
-                        HttpStatus.SC_OK,
-                        "OK",
-                        objectMapper.readValue(content, TwigdooError.class));
-            } catch (IOException ignore) {
-            }
-
-            throw new TwigdooException(e);
+            throw throwError(content, e);
         }
     }
 
@@ -123,7 +107,7 @@ public class HttpClient {
 
         try (CloseableHttpResponse response = httpClient.execute(request, getHttpContext())) {
             if (response.getStatusLine().getStatusCode() >= HttpStatus.SC_BAD_REQUEST) {
-                throwError(response);
+                throw throwError(response);
             }
 
             return readEntity(response);
@@ -142,27 +126,38 @@ public class HttpClient {
         }
     }
 
-    private void throwError(CloseableHttpResponse response) {
+    private TwigdooException throwError(CloseableHttpResponse response) {
         Header contentType = response.getFirstHeader("Content-Type");
         if (contentType != null && contentType.getValue().startsWith("application/json")) {
             String content = null;
             try {
                 content = readEntity(response);
-                throw new TwigdooServerException(
+                return new TwigdooServerException(
                         response.getStatusLine().getStatusCode(),
                         response.getStatusLine().getReasonPhrase(),
                         objectMapper.readValue(content, TwigdooError.class));
             } catch (IOException ignore) {
-                throw new TwigdooServerException(
+                return new TwigdooServerException(
                         response.getStatusLine().getStatusCode(),
                         response.getStatusLine().getReasonPhrase(),
                         new TwigdooError(content));
             }
         } else {
-            throw new TwigdooServerException(
+            return new TwigdooServerException(
                     response.getStatusLine().getStatusCode(),
                     response.getStatusLine().getReasonPhrase(),
                     null);
+        }
+    }
+
+    private TwigdooException throwError(String content, IOException e) {
+        try {
+            return new TwigdooServerException(
+                    HttpStatus.SC_OK,
+                    "OK",
+                    objectMapper.readValue(content, TwigdooError.class));
+        } catch (IOException ignore) {
+            return new TwigdooException(e);
         }
     }
 
