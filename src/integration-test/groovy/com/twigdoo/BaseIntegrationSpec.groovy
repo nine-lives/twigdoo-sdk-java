@@ -23,10 +23,11 @@ abstract class BaseIntegrationSpec extends Specification {
         assert Math.abs(Minutes.minutesBetween(result.createdOn, DateTime.now()).minutes) < 5
         assert Math.abs(Minutes.minutesBetween(result.updatedOn, DateTime.now()).minutes) < 5
         assert result.stage == "" || result.stage == "New Deal"
-        assert result.links.size() == 3
+        assert result.links.size() == 4
         assert result.links["self"] ==~ /http[s]?:\/\/.*\/lead\/\d+/
         assert result.links["calls"] ==~ /http[s]?:\/\/.*\/lead\/\d+\/calls/
         assert result.links["smses"] ==~ /http[s]?:\/\/.*\/lead\/\d+\/smses/
+        assert result.links["emails"] ==~ /http[s]?:\/\/.*\/lead\/\d+\/emails/
 
         assert result.sourceId == lead.getSourceId()
         assert (result.source ?: "") == (lead.source ?: "")

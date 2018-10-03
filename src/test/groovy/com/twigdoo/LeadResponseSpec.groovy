@@ -38,7 +38,9 @@ class LeadResponseSpec extends Specification {
               "stage" : "New Deal",
               "links" : {
                 "self" : "https://api-dev.twigdoo.com/lead/491",
-                "calls" : "https://api-dev.twigdoo.com/lead/491/calls"
+                "calls" : "https://api-dev.twigdoo.com/lead/491/calls",
+                "smses" : "https://api-dev.twigdoo.com/lead/491/smses",
+                "emails" : "https://api-dev.twigdoo.com/lead/491/emails"
               }
             }
        '''
@@ -52,9 +54,11 @@ class LeadResponseSpec extends Specification {
         result.createdOn == LocalDateTime.parse('2018-09-13T13:22:03.742').toDateTime(DateTimeZone.UTC)
         result.updatedOn == LocalDateTime.parse('2018-09-14T12:41:48.058').toDateTime(DateTimeZone.UTC)
         result.stage == "New Deal"
-        result.links.size() == 2
+        result.links.size() == 4
         result.links["self"] == 'https://api-dev.twigdoo.com/lead/491'
         result.links["calls"] == 'https://api-dev.twigdoo.com/lead/491/calls'
+        result.links["smses"] == 'https://api-dev.twigdoo.com/lead/491/smses'
+        result.links["emails"] == 'https://api-dev.twigdoo.com/lead/491/emails'
 
         result.sourceId == '12345'
         result.source == 'blues-brother.com'
