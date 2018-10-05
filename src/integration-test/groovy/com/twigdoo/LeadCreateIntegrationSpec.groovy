@@ -38,7 +38,7 @@ class LeadCreateIntegrationSpec extends BaseIntegrationSpec {
         then:
         TwigdooServerException exception = thrown(TwigdooServerException)
         exception.error != null
-        exception.error.error == '{"error": {"invalid": [".client.email"]}}'
+        exception.error.error == '{"error": {"message": "Invalid request body", "message_code": 400, "errors": {"invalid": [".client.email"]}}}'
         exception.statusCode == 400
         exception.statusMessage == 'BAD REQUEST'
     }
@@ -62,7 +62,7 @@ class LeadCreateIntegrationSpec extends BaseIntegrationSpec {
         then:
         TwigdooServerException exception = thrown(TwigdooServerException)
         exception.error != null
-        exception.error.error == '{"error": {"missing": [".client", ".service"]}}'
+        exception.error.error == '{"error": {"message": "Invalid request body", "message_code": 400, "errors": {"missing": [".client", ".service"]}}}'
         exception.statusCode == 400
         exception.statusMessage == 'BAD REQUEST'
 
@@ -75,7 +75,7 @@ class LeadCreateIntegrationSpec extends BaseIntegrationSpec {
         then:
         TwigdooServerException exception = thrown(TwigdooServerException)
         exception.error != null
-        exception.error.error == '{"error": {"missing": [".client.email", ".client.name", ".service.address", ".service.name"]}}'
+        exception.error.error == '{"error": {"message": "Invalid request body", "message_code": 400, "errors": {"missing": [".client.email", ".client.name", ".service.address", ".service.name"]}}}'
         exception.statusCode == 400
         exception.statusMessage == 'BAD REQUEST'
     }
@@ -91,7 +91,7 @@ class LeadCreateIntegrationSpec extends BaseIntegrationSpec {
         then:
         TwigdooServerException exception = thrown(TwigdooServerException)
         exception.error != null
-        exception.error.error == 'source_id already exists'
+        exception.error.error == '{"error": {"message": "source_id already exists", "message_code": 409, "errors": {"invalid": [".source_id"]}}}'
         exception.statusCode == 409
         exception.statusMessage == 'CONFLICT'
     }

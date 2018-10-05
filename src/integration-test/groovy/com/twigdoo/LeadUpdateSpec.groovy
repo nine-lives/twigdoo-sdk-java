@@ -226,7 +226,7 @@ class LeadUpdateSpec extends BaseIntegrationSpec {
         then:
         TwigdooServerException exception = thrown(TwigdooServerException)
         exception.error != null
-        exception.error.error == '{"error": {"invalid": [".client.email"]}}'
+        exception.error.error == '{"error": {"message": "Invalid request body", "message_code": 400, "errors": {"invalid": [".client.email"]}}}'
         exception.statusCode == 400
         exception.statusMessage == 'BAD REQUEST'
     }
@@ -256,7 +256,7 @@ class LeadUpdateSpec extends BaseIntegrationSpec {
         then:
         TwigdooServerException exception = thrown(TwigdooServerException)
         exception.error != null
-        exception.error.error == '{"error": {"missing": [".client", ".service"]}}'
+        exception.error.error == '{"error": {"message": "Invalid request body", "message_code": 400, "errors": {"missing": [".client", ".service"]}}}'
         exception.statusCode == 400
         exception.statusMessage == 'BAD REQUEST'
 
@@ -272,7 +272,7 @@ class LeadUpdateSpec extends BaseIntegrationSpec {
         then:
         TwigdooServerException exception = thrown(TwigdooServerException)
         exception.error != null
-        exception.error.error == '{"error": {"missing": [".client.email", ".client.name", ".service.address", ".service.name"]}}'
+        exception.error.error == '{"error": {"message": "Invalid request body", "message_code": 400, "errors": {"missing": [".client.email", ".client.name", ".service.address", ".service.name"]}}}'
         exception.statusCode == 400
         exception.statusMessage == 'BAD REQUEST'
     }
