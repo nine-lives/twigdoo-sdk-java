@@ -15,7 +15,7 @@ abstract class BaseIntegrationSpec extends Specification {
                 .withBlockTillRateLimitReset(true)
                 .withRequestsPerSecond(1000)
                 .withEndpoint(System.getProperty("twigdooEndpoint") ?: System.getenv("twigdooEndpoint") ?: "https://api-dev.twigdoo.com")
-                .withApiKey(System.getProperty("twigdooApiKey") ?: System.getenv("twigdooApiKey") ?: 'VP4pWcnlwiGrrBu8GhWPgkq7MFoJ01lz'))
+                .withApiKey(System.getProperty("twigdooApiKey") ?: System.getenv("twigdooApiKey")))
 
     }
 
