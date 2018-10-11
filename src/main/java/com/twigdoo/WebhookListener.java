@@ -19,6 +19,12 @@ public interface WebhookListener {
     default void updated(Webhook<Sms> hook, Sms sms) {
     }
 
+    default void created(Webhook<Email> hook, Email email) {
+    }
+
+    default void updated(Webhook<Email> hook, Email email) {
+    }
+
     default void error(Exception e, String payload) {
 
     }

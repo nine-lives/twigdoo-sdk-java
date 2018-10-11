@@ -41,7 +41,7 @@ public class TwigdooServerException extends TwigdooException {
         sb.append(statusCode).append(": ").append(statusMessage);
 
         if (error != null) {
-            sb.append(" - ").append(error.getError());
+            sb.append(" - ").append(error.getMessage());
         }
 
         return sb.toString();

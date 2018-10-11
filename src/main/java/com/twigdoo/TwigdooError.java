@@ -1,17 +1,29 @@
 package com.twigdoo;
 
-public class TwigdooError {
-    private String error;
+public final class TwigdooError {
+
+    private String message;
+    private Integer messageCode;
+    private TwigdooErrorDetails errors;
+
+
+    public TwigdooError(String message) {
+        this.message = message;
+    }
 
     private TwigdooError() {
 
     }
 
-    public TwigdooError(String error) {
-        this.error = error;
+    public String getMessage() {
+        return message;
     }
 
-    public String getError() {
-        return error;
+    public Integer getMessageCode() {
+        return messageCode;
+    }
+
+    public TwigdooErrorDetails getErrors() {
+        return errors;
     }
 }

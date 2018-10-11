@@ -20,7 +20,7 @@ in your projects as follows:
 
 ### Gradle/Grails
 ```
-    compile 'com.9ls:twigdoo-java-sdk:1.0.2'
+    compile 'com.9ls:twigdoo-java-sdk:1.0.3'
 ```
 
 ### Apache Maven
@@ -28,13 +28,13 @@ in your projects as follows:
     <dependency>
         <groupId>com.9ls</groupId>
         <artifactId>twigdoo-java-sdk</artifactId>
-        <version>1.0.2</version>
+        <version>1.0.3</version>
     </dependency>
 ```
 
 ### Apache Ivy
 ```
-    <dependency org="com.9ls" name="twigdoo-java-sdk" rev="1.0.2" />
+    <dependency org="com.9ls" name="twigdoo-java-sdk" rev="1.0.3" />
 ```
 
 ## Create a Lead
@@ -118,6 +118,8 @@ that occur during either parsing the payload or in a listener will fire the erro
             public void updated(Webhook<Call> hook, Call call) { }
             public void created(Webhook<Sms> hook, Sms sms) { }
             public void updated(Webhook<Sms> hook, Sms sms) { }
+            public void created(Webhook<Email> hook, Email email) { }
+            public void updated(Webhook<Email> hook, Email email) { }
             public void error(Exception e, String payload) { }
     });
 ```
@@ -181,7 +183,7 @@ from the the api key all the other values have defaults.
         .withApiKey(apiKey)
         .withEndpoint("https://api.twigdoo.com")
         .withMaxConnectionsPerRoute(20)
-        .withUserAgent("twigdoo-sdk-java 1.0.2")
+        .withUserAgent("twigdoo-sdk-java 1.0.3")
         .withBlockTillRateLimitReset(false)
         .withRequestsPerSecond(5)
         .withRequestBurstSize(20);

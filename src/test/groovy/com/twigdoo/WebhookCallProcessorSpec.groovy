@@ -149,6 +149,75 @@ class WebhookCallProcessorSpec extends Specification {
         result.callType == CallType.outgoing_missed
     }
 
+    def "I can process an email created"() {
+        given:
+        WebhookCallProcessor processor = new WebhookCallProcessor(1)
+        processor.addListener(new WebhookListener() {})
+        String payload = '''
+                    {
+                        "id": 858, 
+                        "version": 1, 
+                        "action": "created", 
+                        "entity": "email", 
+                        "timestamp": "2018-09-21T10:39:43.639594+00:00", 
+                        "data": {
+                           "id" : 1,
+                           "email_type" : "outgoing"
+                        }
+                    }
+           '''
+
+
+        when:
+        Email result
+        processor.addListener(new WebhookListener() {
+            @Override
+            void created(Webhook<Email> hook, Email call) {
+                result = call
+            }
+        })
+        processor.process(payload).get()
+
+        then:
+        result != null
+        result.id == 1
+        result.emailType == EmailType.outgoing
+    }
+
+    def "I can process an email updated"() {
+        given:
+        WebhookCallProcessor processor = new WebhookCallProcessor(1)
+        processor.addListener(new WebhookListener() {})
+        String payload = '''
+                    {
+                        "id": 858, 
+                        "version": 1, 
+                        "action": "updated", 
+                        "entity": "email", 
+                        "timestamp": "2018-09-21T10:39:43.639594+00:00", 
+                        "data": {
+                           "id" : 1,
+                           "email_type" : "outgoing"
+                        }
+                    }
+           '''
+
+        when:
+        Email result
+        processor.addListener(new WebhookListener() {
+            @Override
+            void updated(Webhook<Email> hook, Email email) {
+                result = email
+            }
+        })
+        processor.process(payload).get()
+
+
+        then:
+        result != null
+        result.id == 1
+        result.emailType == EmailType.outgoing
+    }
 
     def "I can process an sms created"() {
         given:

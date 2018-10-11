@@ -40,10 +40,10 @@ class TwigdooSpec extends Specification {
         Twigdoo api = Twigdoo.make(config)
 
         when:
-        TwigdooServerException e = api.client.throwError('{"error": "message"}', new IOException("io"))
+        TwigdooServerException e = api.client.throwError('{"error": {"message": "message"}}', new IOException("io"))
 
         then:
-        e.error.error == 'message'
+        e.error.message == 'message'
         e.statusCode == 200
         e.statusMessage == 'OK'
 

@@ -52,6 +52,10 @@ public final class Twigdoo {
         return client.get("lead/" + id + "/smses", null, new TypeReference<List<Sms>>() { });
     }
 
+    public List<Email> emails(long id) {
+        return client.get("lead/" + id + "/emails", null, new TypeReference<List<Email>>() { });
+    }
+
     public void delete(long id) {
         client.delete("lead/" + id, null, null);
     }

@@ -3,7 +3,6 @@ package com.twigdoo;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.twigdoo.util.ObjectMapperFactory;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -34,7 +33,7 @@ public class WebhookCallProcessor {
         listeners.remove(listener);
     }
 
-    public Future process(String payload) throws IOException {
+    public Future process(String payload) {
         return executor.submit(() -> {
             try {
                 TwigdooEntityType type = Webhook.findEntityType(mapper, payload);
@@ -46,6 +45,10 @@ public class WebhookCallProcessor {
                     case call:
                         Webhook<Call> callhook = Webhook.getCall(mapper, payload);
                         fire(callhook, callhook.getData());
+                        break;
+                    case email:
+                        Webhook<Email> emailhook = Webhook.getEmail(mapper, payload);
+                        fire(emailhook, emailhook.getData());
                         break;
                     case sms:
                     default:
@@ -109,4 +112,19 @@ public class WebhookCallProcessor {
             }
         }
     }
+
+    private void fire(Webhook<Email> hook, Email data) {
+        for (WebhookListener listener : listeners) {
+            switch (hook.getAction()) {
+                case created:
+                    listener.created(hook, data);
+                    break;
+                case updated:
+                default:
+                    listener.updated(hook, data);
+                    break;
+            }
+        }
+    }
+
 }

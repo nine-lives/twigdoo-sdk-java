@@ -133,4 +133,52 @@ class WebhookSpec extends Specification {
         entity.data.id == 1
         entity.data.smsType == SmsType.incoming
     }
+
+    def "I can covert a JSON payload to the email webhook"() {
+        given:
+        String payload = '''
+                {
+                    "id": 858, 
+                    "version": 1, 
+                    "action": "created", 
+                    "entity": "email", 
+                    "timestamp": "2018-09-21T10:39:43.639594+00:00", 
+                    "data": {
+                      "message_id" : "153477862836.8162.5467706423478211221@matt-ThinkPad-X1-Carbon-3rd",
+                      "email_type" : "outgoing",
+                      "summary_body" : "Hi friend",
+                      "subject" : "Hello!",
+                      "sent" : "2018-08-20T15:23:48+00:00",
+                      "_links" : {
+                         "self" : "http://localhost:5000/lead/238/emails/80",
+                         "lead" : "http://localhost:5000/lead/238"
+                      },
+                      "id" : 80,
+                      "to" : "Testing Matt <matt.wilson+test@twigdoo.com>",
+                      "from" : "Matt Wilson <matt.wilson@twigdoo.com>",
+                      "lead_id" : 238,
+                      "received" : "2018-08-20T15:21:26.698741+00:00"
+                    }
+                }
+       '''
+
+        when:
+        TwigdooEntityType type = Webhook.findEntityType(mapper, payload);
+
+        then:
+        type ==  TwigdooEntityType.email
+
+        when:
+        Webhook<Email> entity = Webhook.getEmail(mapper, payload);
+
+        then:
+        entity.id == 858
+        entity.version == 1
+        entity.action == WebhookAction.created
+        entity.entity == TwigdooEntityType.email
+        entity.timestamp == DateTime.parse("2018-09-21T10:39:43.639594+00:00")
+        entity.data.id == 80
+        entity.data.emailType == EmailType.outgoing
+    }
+
 }

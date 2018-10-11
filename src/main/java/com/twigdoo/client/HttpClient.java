@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.twigdoo.Configuration;
 import com.twigdoo.TwigdooError;
+import com.twigdoo.TwigdooErrorDeserialiser;
 import com.twigdoo.TwigdooException;
 import com.twigdoo.TwigdooServerException;
 import com.twigdoo.util.ObjectMapperFactory;
@@ -135,7 +136,7 @@ public class HttpClient {
                 return new TwigdooServerException(
                         response.getStatusLine().getStatusCode(),
                         response.getStatusLine().getReasonPhrase(),
-                        objectMapper.readValue(content, TwigdooError.class));
+                        objectMapper.readValue(content, TwigdooErrorDeserialiser.class).getError());
             } catch (IOException ignore) {
                 return new TwigdooServerException(
                         response.getStatusLine().getStatusCode(),
@@ -155,7 +156,7 @@ public class HttpClient {
             return new TwigdooServerException(
                     HttpStatus.SC_OK,
                     "OK",
-                    objectMapper.readValue(content, TwigdooError.class));
+                    objectMapper.readValue(content, TwigdooErrorDeserialiser.class).getError());
         } catch (IOException ignore) {
             return new TwigdooException(e);
         }

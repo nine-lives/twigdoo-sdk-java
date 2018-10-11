@@ -2,7 +2,7 @@ package com.twigdoo
 
 class LeadUpdateSpec extends BaseIntegrationSpec {
 
-    def "I can update a lead by id"() {
+    def 'I can update a lead by id'() {
         Lead createResponse = twigdoo.create(buildLead());
         LeadRequest updatedLead = buildAltLead().withSourceId(createResponse.getSourceId())
 
@@ -13,7 +13,7 @@ class LeadUpdateSpec extends BaseIntegrationSpec {
         validate(updatedLead, result)
     }
 
-    def "I can update a lead by source id"() {
+    def 'I can update a lead by source id'() {
         Lead createResponse = twigdoo.create(buildLead());
         LeadRequest updatedLead = buildAltLead().withSourceId(createResponse.getSourceId())
 
@@ -24,7 +24,7 @@ class LeadUpdateSpec extends BaseIntegrationSpec {
         validate(updatedLead, result)
     }
 
-    def "I can update a lead and change the source id"() {
+    def 'I can update a lead and change the source id'() {
         given:
         Lead createResponse = twigdoo.create(buildLead());
         LeadRequest updatedLead = buildAltLead()
@@ -36,11 +36,11 @@ class LeadUpdateSpec extends BaseIntegrationSpec {
         validate(updatedLead, result)
     }
 
-    def "I can update a client fullname with just a forename successfully"() {
+    def 'I can update a client fullname with just a forename successfully'() {
         given:
         LeadRequest lead = buildLead()
         Lead createResponse = twigdoo.create(lead);
-        lead.getClient().withName("Elwood")
+        lead.getClient().withName('Elwood')
 
         when:
         Lead result = twigdoo.update(createResponse.getId(), lead)
@@ -49,7 +49,7 @@ class LeadUpdateSpec extends BaseIntegrationSpec {
         validate(lead, result)
     }
 
-    def "I can update data successfully"() {
+    def 'I can update data successfully'() {
         given:
         LeadRequest lead = buildLead()
         Lead createResponse = twigdoo.create(lead);
@@ -62,7 +62,7 @@ class LeadUpdateSpec extends BaseIntegrationSpec {
         validate(lead, result)
     }
 
-    def "I can update and clear the source id successfully"() {
+    def 'I can update and clear the source id successfully'() {
         given:
         LeadRequest lead = buildLead()
         Lead createResponse = twigdoo.create(lead);
@@ -75,14 +75,14 @@ class LeadUpdateSpec extends BaseIntegrationSpec {
         validate(lead, result)
 
 //        when:
-//        lead.withSourceId("")
+//        lead.withSourceId('')
 //        result = twigdoo.update(createResponse.getId(), lead)
 //
 //        then:
 //        validate(lead, result)
     }
 
-    def "I can update and clear the source successfully"() {
+    def 'I can update and clear the source successfully'() {
         given:
         LeadRequest lead = buildLead()
         Lead createResponse = twigdoo.create(lead);
@@ -95,18 +95,18 @@ class LeadUpdateSpec extends BaseIntegrationSpec {
         validate(lead, result)
 
         when:
-        lead.withSource("")
+        lead.withSource('')
         result = twigdoo.update(createResponse.getId(), lead)
 
         then:
         validate(lead, result)
     }
 
-    def "I can update and clear the client phone successfully"() {
+    def 'I can update and clear the client phone successfully'() {
         given:
         LeadRequest lead = buildLead()
         Lead createResponse = twigdoo.create(lead);
-        lead.getClient().withPhone("")
+        lead.getClient().withPhone('')
 
         when:
         Lead result = twigdoo.update(createResponse.getId(), lead)
@@ -122,11 +122,11 @@ class LeadUpdateSpec extends BaseIntegrationSpec {
         validate(lead, result)
     }
 
-    def "I can update and clear the client address successfully"() {
+    def 'I can update and clear the client address successfully'() {
         given:
         LeadRequest lead = buildLead()
         Lead createResponse = twigdoo.create(lead);
-        lead.getClient().withAddress("")
+        lead.getClient().withAddress('')
 
         when:
         Lead result = twigdoo.update(createResponse.getId(), lead)
@@ -142,7 +142,7 @@ class LeadUpdateSpec extends BaseIntegrationSpec {
         validate(lead, result)
     }
 
-    def "I can update and clear the budget successfully"() {
+    def 'I can update and clear the budget successfully'() {
         given:
         LeadRequest lead = buildLead()
         Lead createResponse = twigdoo.create(lead);
@@ -155,7 +155,7 @@ class LeadUpdateSpec extends BaseIntegrationSpec {
         validate(lead, result)
     }
 
-    def "I can update and clear the currency successfully"() {
+    def 'I can update and clear the currency successfully'() {
         given:
         LeadRequest lead = buildLead()
         Lead createResponse = twigdoo.create(lead);
@@ -168,7 +168,7 @@ class LeadUpdateSpec extends BaseIntegrationSpec {
         validate(lead, result)
     }
 
-    def "I can update and clear the data successfully"() {
+    def 'I can update and clear the data successfully'() {
         given:
         LeadRequest lead = buildLead()
         Lead createResponse = twigdoo.create(lead);
@@ -188,12 +188,12 @@ class LeadUpdateSpec extends BaseIntegrationSpec {
         validate(lead, result)
     }
 
-    def "I can update a lead with minimal data"() {
+    def 'I can update a lead with minimal data'() {
         given:
         Lead createResponse = twigdoo.create(buildLead());
         LeadRequest updatedLead = new LeadRequest()
-                .withClient(new Client().withName("the client").withEmail("client@test.com"))
-                .withService(new Service().withName("the-service").withAddress("SE1 0LH"))
+                .withClient(new Client().withName('the client').withEmail('client@test.com'))
+                .withService(new Service().withName('the-service').withAddress('SE1 0LH'))
 
         // Fields that don't currently get cleared
         updatedLead
@@ -214,11 +214,11 @@ class LeadUpdateSpec extends BaseIntegrationSpec {
         validate(updatedLead, result)
     }
 
-    def "I get a validation error for an invalid email"() {
+    def 'I get a validation error for an invalid email'() {
         given:
         LeadRequest lead = buildLead()
         Lead createResponse = twigdoo.create(lead);
-        lead.getClient().withEmail("laugh-it-up-fuzzball")
+        lead.getClient().withEmail('laugh-it-up-fuzzball')
 
         when:
         twigdoo.update(createResponse.getId(), lead)
@@ -226,12 +226,14 @@ class LeadUpdateSpec extends BaseIntegrationSpec {
         then:
         TwigdooServerException exception = thrown(TwigdooServerException)
         exception.error != null
-        exception.error.error == '{"error": {"message": "Invalid request body", "message_code": 400, "errors": {"invalid": [".client.email"]}}}'
+        exception.error.message == 'Invalid request body'
+        exception.error.messageCode == 400
+        exception.error.errors.invalid as Set == ['.client.email'] as Set
         exception.statusCode == 400
         exception.statusMessage == 'BAD REQUEST'
     }
 
-    def "I get an error if I try to update a lead with no payload"() {
+    def 'I get an error if I try to update a lead with no payload'() {
         given:
         Lead createResponse = twigdoo.create(buildLead());
 
@@ -246,7 +248,7 @@ class LeadUpdateSpec extends BaseIntegrationSpec {
         exception.statusMessage == 'BAD REQUEST'
     }
 
-    def "I get an error if I try to update a lead without the minimum required fields"() {
+    def 'I get an error if I try to update a lead without the minimum required fields'() {
         given:
         Lead createResponse = twigdoo.create(buildLead());
 
@@ -256,13 +258,15 @@ class LeadUpdateSpec extends BaseIntegrationSpec {
         then:
         TwigdooServerException exception = thrown(TwigdooServerException)
         exception.error != null
-        exception.error.error == '{"error": {"message": "Invalid request body", "message_code": 400, "errors": {"missing": [".client", ".service"]}}}'
+        exception.error.message == 'Invalid request body'
+        exception.error.messageCode == 400
+        exception.error.errors.missing as Set == ['.client', '.service'] as Set
         exception.statusCode == 400
         exception.statusMessage == 'BAD REQUEST'
 
     }
 
-    def "I get an error if I try to create a structured lead without the minimum required fields"() {
+    def 'I get an error if I try to create a structured lead without the minimum required fields'() {
         given:
         Lead createResponse = twigdoo.create(buildLead());
 
@@ -272,7 +276,9 @@ class LeadUpdateSpec extends BaseIntegrationSpec {
         then:
         TwigdooServerException exception = thrown(TwigdooServerException)
         exception.error != null
-        exception.error.error == '{"error": {"message": "Invalid request body", "message_code": 400, "errors": {"missing": [".client.email", ".client.name", ".service.address", ".service.name"]}}}'
+        exception.error.message == 'Invalid request body'
+        exception.error.messageCode == 400
+        exception.error.errors.missing as Set == ['.client.email', '.client.name', '.service.address', '.service.name'] as Set
         exception.statusCode == 400
         exception.statusMessage == 'BAD REQUEST'
     }

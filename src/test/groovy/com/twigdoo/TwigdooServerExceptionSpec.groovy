@@ -14,6 +14,6 @@ class TwigdooServerExceptionSpec extends Specification {
         then:
         e.statusCode == 401
         e.statusMessage == 'Unauthorised'
-        e.error.error == 'error_message'
+        e.error.message == 'error_message'
     }
 }

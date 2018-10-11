@@ -59,7 +59,9 @@ class LeadPatchSpec extends BaseIntegrationSpec {
         then:
         TwigdooServerException exception = thrown(TwigdooServerException)
         exception.error != null
-        exception.error.error == '{"error": {"message": "Invalid request body", "message_code": 400, "errors": {"invalid": [".client.email"]}}}'
+        exception.error.message == 'Invalid request body'
+        exception.error.messageCode == 400
+        exception.error.errors.invalid as Set == ['.client.email'] as Set
         exception.statusCode == 400
         exception.statusMessage == 'BAD REQUEST'
     }
