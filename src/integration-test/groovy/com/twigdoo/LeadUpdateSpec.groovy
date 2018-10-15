@@ -106,17 +106,10 @@ class LeadUpdateSpec extends BaseIntegrationSpec {
         given:
         LeadRequest lead = buildLead()
         Lead createResponse = twigdoo.create(lead);
-        lead.getClient().withPhone('')
+        lead.getClient().withPhone(null)
 
         when:
         Lead result = twigdoo.update(createResponse.getId(), lead)
-
-        then:
-        validate(lead, result)
-
-        when:
-        lead.getClient().withPhone(null)
-        result = twigdoo.update(createResponse.getId(), lead)
 
         then:
         validate(lead, result)
