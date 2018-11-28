@@ -185,7 +185,7 @@ class LeadUpdateSpec extends BaseIntegrationSpec {
         given:
         Lead createResponse = twigdoo.create(buildLead());
         LeadRequest updatedLead = new LeadRequest()
-                .withClient(new Client().withName('the client').withEmail('client@test.com'))
+                .withClient(new Client().withName('John Doh').withEmail('client@test.com'))
                 .withService(new Service().withName('the-service').withAddress('SE1 0LH'))
 
         // Fields that don't currently get cleared

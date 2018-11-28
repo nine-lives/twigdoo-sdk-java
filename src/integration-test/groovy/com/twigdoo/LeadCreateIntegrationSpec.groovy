@@ -16,7 +16,7 @@ class LeadCreateIntegrationSpec extends BaseIntegrationSpec {
     def "I can create a lead with minimal data"() {
         given:
         LeadRequest lead = new LeadRequest()
-            .withClient(new Client().withName("the-client").withEmail("client@test.com"))
+            .withClient(new Client().withName("John Doh").withEmail("client@test.com"))
             .withService(new Service().withName("the-service").withAddress("SE1 0LH"))
 
         when:
@@ -29,7 +29,7 @@ class LeadCreateIntegrationSpec extends BaseIntegrationSpec {
     def "I get a validation error for an invalid email"() {
         given:
         LeadRequest lead = new LeadRequest()
-                .withClient(new Client().withName("the-client").withEmail("thats-no-moon"))
+                .withClient(new Client().withName("John Doh").withEmail("thats-no-moon"))
                 .withService(new Service().withName("the-service").withAddress("SE1 0LH"))
 
         when:
