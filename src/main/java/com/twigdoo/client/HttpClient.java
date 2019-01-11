@@ -31,6 +31,7 @@ import org.apache.http.util.EntityUtils;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.charset.Charset;
 
 public class HttpClient {
     private static final String HEADER_API_KEY = "X-API-Key";
@@ -118,8 +119,8 @@ public class HttpClient {
     private <T extends HttpEntityEnclosingRequest> T setPayload(T request, Object payload) {
         try {
             String json = objectMapper.writeValueAsString(payload);
-            StringEntity entity = new StringEntity(json);
-            entity.setContentType("application/json");
+            StringEntity entity = new StringEntity(json, Charset.forName("utf-8"));
+            entity.setContentType("application/json; charset=UTF-8");
             request.setEntity(entity);
             return request;
         } catch (IOException e) {
