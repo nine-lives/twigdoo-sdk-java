@@ -66,16 +66,31 @@ class LeadPatchSpec extends BaseIntegrationSpec {
         exception.statusMessage == 'BAD REQUEST'
     }
 
-    def "I can update data successfully"() {
+//    def "I can update data successfully"() {
+//        given:
+//        LeadRequest lead = buildLead()
+//        Lead createResponse = twigdoo.create(lead);
+//        lead.withData(['Item 1': 'Mic'])
+//
+//        when:
+//        Lead result = twigdoo.patch(createResponse.getId(), lead)
+//
+//        then:
+//        validate(lead, result)
+//    }
+
+    def "I can send UTF-8 characters"() {
         given:
         LeadRequest lead = buildLead()
         Lead createResponse = twigdoo.create(lead);
-        lead.withData(['Item 1': 'Mic'])
+        lead.getData().put('Item 1', '£')
+        lead.getData().put('Item 2', '9½ è')
 
         when:
-        Lead result = twigdoo.update(createResponse.getId(), lead)
+        Lead result = twigdoo.patch(createResponse.getId(), lead)
 
         then:
         validate(lead, result)
     }
+
 }
